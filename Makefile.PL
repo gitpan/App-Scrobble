@@ -26,16 +26,19 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "App::Scrobble",
   "PREREQ_PM" => {
+    "Data::Dump" => 0,
+    "File::HomeDir" => 0,
     "Module::PluginFinder" => 0,
     "Moose" => 0,
     "Moose::Role" => 0,
     "MooseX::Getopt::Dashes" => 0,
+    "MooseX::SimpleConfig" => 0,
     "Net::LastFM::Submission" => 0,
     "WWW::Mixcloud" => 0,
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.01",
+  "VERSION" => "0.02",
   "test" => {
     "TESTS" => "t/*.t"
   }

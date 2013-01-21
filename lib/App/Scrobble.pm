@@ -2,12 +2,15 @@
 package App::Scrobble;
 
 use Moose;
-with 'MooseX::Getopt::Dashes'; #'MooseX::SimpleConfig';
+with 'MooseX::Getopt::Dashes',
+     'MooseX::SimpleConfig';
 
-our $VERSION = '0.01'; # VERSION
+our $VERSION = '0.02'; # VERSION
 
 use Module::PluginFinder;
 use Net::LastFM::Submission;
+use File::HomeDir;
+use Data::Dump qw( pp );
 
 has 'username' => (
     is => 'rw',
@@ -30,10 +33,12 @@ has 'url' => (
     documentation => 'The URL of the thing you\'d like to scrobble',
 );
 
-#has 'configfile' => (
-    #is => 'rw',
-    #default => "/.scrobble",
-#);
+has '+configfile' => (
+    is => 'rw',
+    default => sub {
+        return File::HomeDir->my_home . "/.scrobble.yaml";
+    },
+);
 
 has 'dry_run' => (
     is => 'rw',
@@ -47,6 +52,13 @@ has 'verbose' => (
     isa => 'Bool',
     default => 0,
     documentation => 'Prints out information about progress',
+);
+
+has 'debug' => (
+    is => 'rw',
+    isa => 'Bool',
+    default => 0,
+    documentation => 'Print out extra diagnostics, useful if things do not seem to be working',
 );
 
 has 'finder' => (
@@ -90,8 +102,15 @@ sub _scrobble_tracks {
         password => $self->password,
     );
 
-
     my $ret = $lastfm->handshake;
+    print pp $ret if $self->debug;
+
+    # Any errors?
+    if ( exists $ret->{error} ) {
+        warn "There was a problem authenticating with last.fm: "
+            . $ret->{reason}||$ret->{error};
+        exit(1);
+    }
 
     my $time = time;
     my $count = 0;
@@ -103,11 +122,13 @@ sub _scrobble_tracks {
 
         print "Scrobbling track: $track artist: $artist \n" if $self->verbose;
 
-        $lastfm->submit({
+        ## no critic
+        my $ret = $lastfm->submit({
             artist => $artist,
             title  => $track,
             time   => $time - ( $count *  3 * 60 ),
         }) unless $self->dry_run;
+        print pp $ret if $self->debug;
 
         $count++;
     }
@@ -125,7 +146,7 @@ App::Scrobble - Command line scrobbling app
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 DESCRIPTION
 

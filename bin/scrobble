@@ -5,7 +5,7 @@ use strict;
 
 # ABSTRACT: Command line scrobbling client
 # PODNAME: App::scrobble
-our $VERSION = '0.01'; # VERSION
+our $VERSION = '0.02'; # VERSION
 
 use App::Scrobble;
 
@@ -23,7 +23,7 @@ App::scrobble - Command line scrobbling client
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 SYNOPSIS
 

@@ -6,7 +6,7 @@ with 'App::Scrobble::Role::WithService';
 
 use WWW::Mixcloud;
 
-our $VERSION = '0.01'; # VERSION
+our $VERSION = '0.02'; # VERSION
 
 sub is_plugin_for {
     my $class = shift;
@@ -45,7 +45,7 @@ App::Scrobble::Service::Mixcloud - Mixcloud plugin
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 DESCRIPTION
 
