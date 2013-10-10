@@ -2,10 +2,11 @@
 package App::Scrobble;
 
 use Moose;
+use namespace::autoclean;
 with 'MooseX::Getopt::Dashes',
      'MooseX::SimpleConfig';
 
-our $VERSION = '0.02'; # VERSION
+our $VERSION = '0.03'; # VERSION
 
 use Module::PluginFinder;
 use Net::LastFM::Submission;
@@ -120,6 +121,7 @@ sub _scrobble_tracks {
         my $artist = $track->{artist};
         my $track  = $track->{title};
 
+        # XXX use open binmode to correctly encode/decode the output
         print "Scrobbling track: $track artist: $artist \n" if $self->verbose;
 
         ## no critic
@@ -134,6 +136,8 @@ sub _scrobble_tracks {
     }
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 
@@ -146,7 +150,7 @@ App::Scrobble - Command line scrobbling app
 
 =head1 VERSION
 
-version 0.02
+version 0.03
 
 =head1 DESCRIPTION
 

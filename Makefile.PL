@@ -34,11 +34,13 @@ my %WriteMakefileArgs = (
     "MooseX::Getopt::Dashes" => 0,
     "MooseX::SimpleConfig" => 0,
     "Net::LastFM::Submission" => 0,
+    "WWW::BBC::TrackListings" => 0,
     "WWW::Mixcloud" => 0,
+    "namespace::autoclean" => 0,
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.02",
+  "VERSION" => "0.03",
   "test" => {
     "TESTS" => "t/*.t"
   }

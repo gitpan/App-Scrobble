@@ -2,11 +2,12 @@
 package App::Scrobble::Service::Mixcloud;
 
 use Moose;
+use namespace::autoclean;
 with 'App::Scrobble::Role::WithService';
 
 use WWW::Mixcloud;
 
-our $VERSION = '0.02'; # VERSION
+our $VERSION = '0.03'; # VERSION
 
 sub is_plugin_for {
     my $class = shift;
@@ -33,6 +34,8 @@ sub get_tracks {
     return $self->tracks;
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 
@@ -45,7 +48,7 @@ App::Scrobble::Service::Mixcloud - Mixcloud plugin
 
 =head1 VERSION
 
-version 0.02
+version 0.03
 
 =head1 DESCRIPTION
 
